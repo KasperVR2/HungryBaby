@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Hungry Baby</string>
+    <string name="app_name" translatable="false">Hungry Baby</string>
+    <string name="bewaar">Save</string>
+    <string name="wat_is_naam_baby">What is the name of the baby?</string>
 </resources>

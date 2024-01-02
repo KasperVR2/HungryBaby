@@ -68,5 +68,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // Zelf toegevoegde dependencies
+    // Toevoegen datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    // Extra dependencies voor de UI
+    implementation("androidx.compose.material:material-icons-extended")
 }
