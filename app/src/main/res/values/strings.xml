@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name" translatable="false">Hungry Baby</string>
-    <string name="register_page" translatable="false">Register</string>
+    <string name="register_page">Register</string>
+    <string name="about_page">About</string>
 
     <string name="bewaar">Save</string>
     <string name="wat_is_naam_baby">What is the name of the baby?</string>
+    <string name="logo_description">Hungry Baby Logo</string>
+    <string name="choose_date_birth">Choose date of birth</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_message_regitration">Please fill in all the values</string>
+    <string name="settings_page">Settings</string>
+    <string name="register_first_page">First registration</string>
 </resources>

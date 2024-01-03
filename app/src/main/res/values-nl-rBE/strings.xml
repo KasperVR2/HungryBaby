@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hungry Baby</string>
+    <string name="register_page">Registreer</string>
     <string name="bewaar">Bewaar</string>
     <string name="wat_is_naam_baby">Wat is de naam van de baby?</string>
+    <string name="about_page">Over app</string>
+    <string name="logo_description">Logo van Hungry Baby</string>
+    <string name="choose_date_birth">Kies geboortedatum</string>
+    <string name="ok">Oké</string>
+    <string name="cancel">Annuleer</string>
+    <string name="error_message_regitration">Gelieve de waarden in te vullen</string>
+    <string name="settings_page">Instellingen</string>
+    <string name="register_first_page">Eerste registratie</string>
 </resources>

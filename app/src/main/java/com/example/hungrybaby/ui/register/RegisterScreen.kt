@@ -1,15 +1,20 @@
 package com.example.hungrybaby.ui.register
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -22,9 +27,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 import com.example.hungrybaby.R
 import com.example.hungrybaby.ui.shared.StartData
 import kotlinx.coroutines.runBlocking
@@ -35,7 +45,7 @@ import java.util.Date
 @Composable
 fun Register(
     goToHomeScreen: () -> Unit,
-    modifier: Modifier = Modifier,
+    firstTime: Boolean = true,
 ) {
     // Datastore voor het opslaan van de naam en geboortedatum van de baby
     val data = StartData(LocalContext.current)
@@ -43,10 +53,17 @@ fun Register(
     var name by rememberSaveable { mutableStateOf("") }
     val changeName = { newName: String -> name = newName }
     // Geboortedatum Baby
-    var date = rememberSaveable { mutableStateOf("Kies de geboortedatum") }
+    val chooseDate = stringResource(R.string.choose_date_birth)
+    var date = rememberSaveable { mutableStateOf(chooseDate) }
 
-    val saveData = {
-        // TODO nog checks schrijven voor de naam en geboortedatum
+    var showErrorMessage by rememberSaveable { mutableStateOf(false) }
+
+    val saveData = saveData@{
+        // Check if everything is filled in
+        if (name.isEmpty() || date.value == chooseDate) {
+            showErrorMessage = true
+            return@saveData
+        }
         runBlocking { data.saveBabyData(name) }
         goToHomeScreen()
     }
@@ -57,25 +74,43 @@ fun Register(
             Modifier
                 .padding(dimensionResource(R.dimen.mediumPadding)),
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = stringResource(id = R.string.logo_description),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(dimensionResource(id = R.dimen.logoSize)),
+        )
+
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.mediumSpacer)))
+
         OutlinedTextField(
             value = name,
             onValueChange = changeName,
             label = { Text(stringResource(R.string.wat_is_naam_baby)) },
             singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.mediumSpacer)))
 
         MyDatePickerDialog(date)
 
-        Text(name)
-        Text(text = date.value)
-
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.mediumSpacer)))
+        if (showErrorMessage) {
+            Text(
+                text = stringResource(R.string.error_message_regitration),
+                style = TextStyle(color = Color.Red),
+            )
+        }
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.mediumSpacer)))
         Row {
-            Spacer(Modifier.weight(1F))
+            if (!firstTime) {
+                TextButton(onClick = goToHomeScreen) {
+                    Text(text = stringResource(R.string.cancel))
+                }
+            }
             TextButton(onClick = saveData) {
-                Text(stringResource(R.string.bewaar))
+                Text(text = stringResource(R.string.bewaar))
             }
         }
     }
@@ -83,13 +118,22 @@ fun Register(
 
 @Composable
 fun MyDatePickerDialog(date: MutableState<String>) {
-    // var date by rememberSaveable { mutableStateOf("Kies de geboortedatum") }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
     var datum by date
 
     Box(contentAlignment = Alignment.Center) {
-        Button(onClick = { showDatePicker = true }) {
-            Text(text = datum)
+        Button(
+            onClick = { showDatePicker = true },
+            modifier =
+                Modifier
+                    .height(dimensionResource(id = R.dimen.buttonHeight))
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.primary),
+        ) {
+            Text(
+                text = datum,
+                style = TextStyle(fontSize = 14.sp),
+            )
         }
     }
 
@@ -123,14 +167,14 @@ fun MyDatePickerDialog(
                     onDismiss()
                 },
             ) {
-                Text(text = "OK")
+                Text(text = stringResource(id = R.string.ok))
             }
         },
         dismissButton = {
             Button(onClick = {
                 onDismiss()
             }) {
-                Text(text = "Cancel")
+                Text(text = stringResource(id = R.string.cancel))
             }
         },
     ) {

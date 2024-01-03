@@ -8,4 +8,7 @@ enum class ScreenNames(
 ) {
     Start(title = R.string.app_name),
     Register(title = R.string.register_page),
+    RegisterFirst(title = R.string.register_first_page),
+    About(title = R.string.about_page),
+    Settings(title = R.string.settings_page),
 }
