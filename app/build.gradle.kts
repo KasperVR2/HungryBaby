@@ -72,4 +72,6 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     // Extra dependencies voor de UI
     implementation("androidx.compose.material:material-icons-extended")
+    // Navigation toevoegen
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 }

@@ -1,4 +1,4 @@
-package com.example.hungrybaby.ui.opening
+package com.example.hungrybaby.ui.shared
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -20,9 +20,9 @@ class StartData(private val context: Context) {
             preferences[BABY_DATA] ?: ""
         }
 
-    suspend fun saveBabyData(token: String) {
+    suspend fun saveBabyData(data: String) {
         context.dataStore.edit { preferences ->
-            preferences[BABY_DATA] = token
+            preferences[BABY_DATA] = data
         }
     }
 }
