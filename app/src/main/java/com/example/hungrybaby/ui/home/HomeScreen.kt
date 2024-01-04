@@ -1,10 +1,13 @@
 package com.example.hungrybaby.ui.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.hungrybaby.ui.home.food.FoodOverview
+import com.example.hungrybaby.ui.home.news.NewsOverview
 import com.example.hungrybaby.ui.shared.StartData
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -16,5 +19,7 @@ fun Home() {
     Column {
         Text("Home $babyData")
         FoodOverview()
+        Spacer(modifier = Modifier.weight(1F))
+        NewsOverview()
     }
 }
