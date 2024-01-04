@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.hungrybaby.model.Food
 
-@Database(entities = [Food::class], version = 1)
+@Database(entities = [dbFood::class], version = 1)
 abstract class FoodDb : RoomDatabase() {
     abstract fun foodDao(): FoodDao
 

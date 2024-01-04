@@ -3,14 +3,13 @@ package com.example.hungrybaby.data.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.hungrybaby.model.Food
-import java.util.Date
 
 @Entity(tableName = "foodintake")
 data class dbFood(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val volume: Int,
-    val dateAndTime: Date,
+    val dateAndTime: String,
     val note: String = "",
 )
 
