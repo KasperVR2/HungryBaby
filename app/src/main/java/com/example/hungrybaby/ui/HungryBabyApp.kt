@@ -88,10 +88,10 @@ fun HungryBabyApp(navController: NavHostController = rememberNavController()) {
             ScaffoldBuilder(body = { Settings(goToRegister) })
         }
         composable(ScreenNames.RegisterFirst.name) {
-            Register(goToHomeScreen)
+            Register(goToHomeScreen, navigateUp)
         }
         composable(ScreenNames.Register.name) {
-            Register(goToHomeScreen, firstTime = false)
+            Register(goToHomeScreen, navigateUp, firstTime = false)
         }
     }
 }

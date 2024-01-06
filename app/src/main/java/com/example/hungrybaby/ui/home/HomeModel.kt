@@ -1,4 +1,4 @@
-package com.example.hungrybaby.ui.home.food
+package com.example.hungrybaby.ui.home
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +11,11 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.hungrybaby.HungryBabyApplication
 import com.example.hungrybaby.data.FoodRepository
 import com.example.hungrybaby.model.Food
+import com.example.hungrybaby.ui.home.food.FoodApiState
+import com.example.hungrybaby.ui.home.food.FoodListState
+import com.example.hungrybaby.ui.home.food.FoodState
+import com.example.hungrybaby.ui.home.news.NewsListState
+import com.example.hungrybaby.ui.home.news.NewsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,15 +25,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FoodModel(private val foodRepo: FoodRepository) : ViewModel() {
+class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(FoodState())
     val uiState: StateFlow<FoodState> = _uiState.asStateFlow()
     lateinit var uiListState: StateFlow<FoodListState>
+
+    private val _newsState = MutableStateFlow(NewsState())
+    val newsState: StateFlow<NewsState> = _newsState.asStateFlow()
+    lateinit var newsListState: StateFlow<NewsListState>
+
     var foodApiState: FoodApiState by mutableStateOf(FoodApiState.Loading)
         private set
 
     init {
         getRepoFood()
+
+        /* VERDER AFWERKEN
+        viewModelScope.launch {
+            newsListState = NewsService().map { NewsListState(it) }
+                    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), NewsListState())
+        }
+         */
     }
 
     private fun getRepoFood() {
@@ -43,15 +60,42 @@ class FoodModel(private val foodRepo: FoodRepository) : ViewModel() {
     }
 
     fun addFood() {
-        setNewFoodVolume(50)
         viewModelScope.launch {
             foodRepo.addFood(Food(_uiState.value.newFoodVolume, _uiState.value.newFoodDate, _uiState.value.newFoodNote))
         }
+        // reset the input fields
     }
 
-    fun setNewFoodVolume(volume: Int) {
+    fun deleteAllFood() {
+        viewModelScope.launch {
+            foodRepo.removeAllFood()
+        }
+    }
+
+    fun deleteFood(
+        volume: Int,
+        dateAndTime: String,
+    ) {
+        viewModelScope.launch {
+            foodRepo.removeFoodWithParams(volume, dateAndTime)
+        }
+    }
+
+    fun setNewFoodVolume(volumeString: String) {
+        val volume =
+            try {
+                volumeString.toInt()
+            } catch (e: Exception) {
+                0
+            }
         _uiState.update {
             it.copy(newFoodVolume = volume)
+        }
+    }
+
+    fun setNewFoodTime(time: String) {
+        _uiState.update {
+            it.copy(newFoodDate = time)
         }
     }
 
@@ -61,7 +105,7 @@ class FoodModel(private val foodRepo: FoodRepository) : ViewModel() {
                 initializer {
                     val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as HungryBabyApplication)
                     val foodRepository = application.container.foodRepository
-                    FoodModel(foodRepo = foodRepository)
+                    HomeModel(foodRepo = foodRepository)
                 }
             }
     }

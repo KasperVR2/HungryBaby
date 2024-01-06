@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -41,18 +43,15 @@ import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Date
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Register(
     goToHomeScreen: () -> Unit,
+    goBack: () -> Unit,
     firstTime: Boolean = true,
 ) {
-    // Datastore voor het opslaan van de naam en geboortedatum van de baby
     val data = StartData(LocalContext.current)
-    // Naam Baby
     var name by rememberSaveable { mutableStateOf("") }
     val changeName = { newName: String -> name = newName }
-    // Geboortedatum Baby
     val chooseDate = stringResource(R.string.choose_date_birth)
     var date = rememberSaveable { mutableStateOf(chooseDate) }
 
@@ -64,7 +63,8 @@ fun Register(
             showErrorMessage = true
             return@saveData
         }
-        runBlocking { data.saveBabyData(name) }
+        val nameAndDate = name + ";" + date.value
+        runBlocking { data.saveBabyData(nameAndDate) }
         goToHomeScreen()
     }
 
@@ -72,7 +72,8 @@ fun Register(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.mediumPadding)),
+                .padding(dimensionResource(R.dimen.mediumPadding))
+                .verticalScroll(rememberScrollState()),
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
@@ -105,7 +106,7 @@ fun Register(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.mediumSpacer)))
         Row {
             if (!firstTime) {
-                TextButton(onClick = goToHomeScreen) {
+                TextButton(onClick = goBack) {
                     Text(text = stringResource(R.string.cancel))
                 }
             }

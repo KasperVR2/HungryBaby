@@ -19,6 +19,21 @@ interface FoodDao {
     @Delete
     suspend fun delete(item: dbFood)
 
+    @Query("DELETE FROM foodintake WHERE volume = :volume AND dateAndTime = :dateAndTime")
+    suspend fun deleteWithParams(
+        volume: Int,
+        dateAndTime: String,
+    )
+
+    @Query("DELETE FROM foodintake")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM foodintake WHERE volume = :volume AND dateAndTime = :dateAndTime LIMIT 1")
+    fun getFood(
+        volume: Int,
+        dateAndTime: String,
+    ): Flow<dbFood>
+
     @Query("SELECT * from foodintake ORDER BY dateAndTime ASC")
     fun getAllItems(): Flow<List<dbFood>>
 }

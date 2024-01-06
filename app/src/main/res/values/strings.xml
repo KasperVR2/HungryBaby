@@ -12,4 +12,16 @@
     <string name="error_message_regitration">Please fill in all the values</string>
     <string name="settings_page">Settings</string>
     <string name="register_first_page">First registration</string>
+    <string name="news_can_t_be_loaded">News can\'t be loaded...</string>
+    <string name="days_old">days old</string>
+    <string name="add_food_title">Add food</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="how_much_drink">Volume milk?</string>
+    <string name="expand_description">More options</string>
+    <string name="about_text">This app helps you keep track of the food intake of your baby.\n\nAt the homepage you can add a food entry: provide the dialog with the volume and the time. The different entries will be added to the homescreen.\n\nWe also provide tips and news on the homepage, be sure to check it out!</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="delete_all_food">Delete all food?</string>
+    <string name="delete_all_food_text">Are you sure you want to delete all food entries?\n\nThis cannot be undone.</string>
+    <string name="all_foods_deleted">All foods deleted</string>
 </resources>

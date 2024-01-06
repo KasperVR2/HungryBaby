@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-    const news = [
+app.get('/news', (req, res) => {
+    const newsItems = [
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "Fusce a quam at magna dapibus finibus elementum a mi.",
         "Nunc ullamcorper arcu sed lectus ornare cursus.",
@@ -11,7 +11,10 @@ app.get('/', (req, res) => {
         "Sed ut odio ut ipsum lobortis maximus.",
         "Sed id tellus vitae elit ultricies lacinia.",
     ]
-    res.send(news[Math.floor(Math.random() * news.length)])
+    const item = [{
+        news: newsItems[Math.floor(Math.random() * newsItems.length)],
+    }]
+    res.send(item)
 })
 
 app.get('/:leeftijd', (req, res) => {

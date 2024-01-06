@@ -11,4 +11,15 @@
     <string name="error_message_regitration">Gelieve de waarden in te vullen</string>
     <string name="settings_page">Instellingen</string>
     <string name="register_first_page">Eerste registratie</string>
+    <string name="news_can_t_be_loaded">Nieuws kan niet geladen worden</string>
+    <string name="days_old">dagen oud</string>
+    <string name="add_food_title">Voeding toevoegen</string>
+    <string name="confirm">Bevestig</string>
+    <string name="dismiss">Annuleer</string>
+    <string name="how_much_drink">Volume melk?</string>
+    <string name="expand_description">Meer opties</string>
+    <string name="about_text">Deze app helpt met het bijhouden van de voedselinname van jouw baby. \n\nOp de startpagina kan je voedsel toevoegen: geef in het venster het volume en tijdstip in. De verschillende innames worden toegevoegd aan de hoofdpagina.\n\nEr worden ook tips en nieuws weergegeven op de startpagina, zeker eens bekijken!</string>
+    <string name="send_feedback">Stuur feedback</string>
+    <string name="delete_all_food">Alle voedsel verwijderen?</string>
+    <string name="delete_all_food_text">Ben je zeker dat je al het voedsel wilt verwijderen?\n\nDit kan niet ongedaan gemaakt worden.</string>
 </resources>

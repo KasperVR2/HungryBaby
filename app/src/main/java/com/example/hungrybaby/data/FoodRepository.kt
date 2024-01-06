@@ -14,6 +14,13 @@ interface FoodRepository {
 
     suspend fun removeFood(food: Food)
 
+    suspend fun removeFoodWithParams(
+        volume: Int,
+        dateAndTime: String,
+    )
+
+    suspend fun removeAllFood()
+
     suspend fun updateFood(food: Food)
 }
 
@@ -31,6 +38,17 @@ class FoodRepositoryImpl(private val foodDao: FoodDao) : FoodRepository {
 
     override suspend fun removeFood(food: Food) {
         foodDao.delete(food.asDbFood())
+    }
+
+    override suspend fun removeFoodWithParams(
+        volume: Int,
+        dateAndTime: String,
+    ) {
+        foodDao.deleteWithParams(volume, dateAndTime)
+    }
+
+    override suspend fun removeAllFood() {
+        foodDao.deleteAll()
     }
 
     override suspend fun updateFood(food: Food) {
