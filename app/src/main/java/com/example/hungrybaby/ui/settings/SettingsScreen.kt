@@ -35,7 +35,6 @@ fun Settings(
         }
 
         when {
-            // ...
             openAlertDialog.value -> {
                 AlertDialog(
                     onDismissRequest = { openAlertDialog.value = false },

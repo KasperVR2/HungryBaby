@@ -24,8 +24,11 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -39,7 +42,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hungrybaby.R
 import com.example.hungrybaby.ui.home.food.FoodOverview
-import com.example.hungrybaby.ui.home.news.NewsOverview
 import com.example.hungrybaby.ui.shared.StartData
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -70,10 +72,12 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
     // Hoisted variables for the model
     val volume = rememberSaveable { mutableStateOf("") }
     val time = rememberSaveable { mutableStateOf("") }
+    // volume.value = homeModel.getFoodVolume().toString()
 
     Box(
         modifier =
-            Modifier.fillMaxSize()
+            Modifier
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
     )
     Column {
@@ -92,8 +96,6 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
         }
         Spacer(modifier = Modifier.height(12.dp))
         FoodOverview()
-        Spacer(modifier = Modifier.weight(1F))
-        NewsOverview()
     }
 
     when {
@@ -101,11 +103,7 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
         openFoodDialog.value -> {
             AddFoodDialog(
                 onDismissRequest = { openFoodDialog.value = false },
-                onConfirmation = {
-                    openFoodDialog.value = false
-                    homeModel.addFood()
-                },
-                volume = volume,
+                // volume = volume,
                 time = time,
                 homeModel = homeModel,
                 modal = openFoodDialog,
@@ -118,14 +116,15 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
 @Composable
 fun AddFoodDialog(
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    volume: MutableState<String>,
+    // volume: MutableState<String>,
     time: MutableState<String>,
     homeModel: HomeModel,
     modal: MutableState<Boolean>,
 ) {
+    var volume by remember { mutableStateOf("") }
     val timeState = rememberTimePickerState(is24Hour = true)
-    val changeVolume = { newVolume: String -> volume.value = newVolume }
+    val changeVolume = { newVolume: String -> volume = newVolume }
+    var warning by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -153,8 +152,15 @@ fun AddFoodDialog(
                             .height(160.dp),
                 )
 
+                if (warning) {
+                    Text(
+                        text = stringResource(id = R.string.warning),
+                        style = TextStyle(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
+                    )
+                }
+
                 OutlinedTextField(
-                    value = volume.value,
+                    value = volume,
                     onValueChange = { changeVolume(it) },
                     label = { Text(stringResource(R.string.how_much_drink)) },
                     singleLine = true,
@@ -180,11 +186,19 @@ fun AddFoodDialog(
                     }
                     TextButton(
                         onClick = {
-                            time.value = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now()) + "-" + timeState.hour.toString() + ":" + timeState.minute
-                            homeModel.setNewFoodTime(time.value)
-                            homeModel.setNewFoodVolume(volume.value)
-                            homeModel.addFood()
-                            modal.value = false
+                            val hour = if (timeState.hour < 10) "0" + timeState.hour.toString() else timeState.hour.toString()
+                            val minute = if (timeState.minute < 10) "0" + timeState.minute.toString() else timeState.minute.toString()
+                            val flag = checkVolume(volume)
+                            if (flag) {
+                                time.value = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now()) + "-" + hour + ":" + minute
+                                homeModel.setNewFoodTime(time.value)
+                                homeModel.setNewFoodVolume(volume)
+                                homeModel.addFood()
+                                modal.value = false
+                            } else {
+                                warning = true
+                                return@TextButton
+                            }
                         },
                         modifier = Modifier.padding(8.dp),
                     ) {
@@ -194,4 +208,8 @@ fun AddFoodDialog(
             }
         }
     }
+}
+
+fun checkVolume(volume: String): Boolean {
+    return volume.toIntOrNull() != null && volume.toInt() > 0
 }

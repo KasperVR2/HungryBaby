@@ -1,4 +1,4 @@
-package com.example.hungrybaby.ui.home.news
+package com.example.hungrybaby.ui.news.news
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

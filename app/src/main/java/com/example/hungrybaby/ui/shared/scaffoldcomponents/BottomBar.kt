@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -19,6 +20,7 @@ fun BottomB(
     goHome: () -> Unit,
     goToAbout: () -> Unit,
     goToASettings: () -> Unit,
+    goToNews: () -> Unit,
 ) {
     BottomAppBar(
         modifier = Modifier.height(70.dp),
@@ -30,6 +32,12 @@ fun BottomB(
                 Icon(
                     Icons.Filled.Home,
                     contentDescription = "navigate to home screen",
+                )
+            }
+            IconButton(onClick = goToNews) {
+                Icon(
+                    Icons.Filled.Newspaper,
+                    contentDescription = "navigate to news page",
                 )
             }
             IconButton(onClick = goToAbout) {

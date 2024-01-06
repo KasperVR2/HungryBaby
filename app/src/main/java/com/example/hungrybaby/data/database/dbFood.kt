@@ -1,10 +1,11 @@
 package com.example.hungrybaby.data.database
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.hungrybaby.model.Food
 
-@Entity(tableName = "foodintake")
+@Entity(tableName = "foodintake", indices = [Index(value = ["dateAndTime"], unique = true)])
 data class dbFood(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

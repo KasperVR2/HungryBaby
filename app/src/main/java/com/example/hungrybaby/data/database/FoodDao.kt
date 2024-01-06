@@ -28,12 +28,15 @@ interface FoodDao {
     @Query("DELETE FROM foodintake")
     suspend fun deleteAll()
 
+    @Query("SELECT * FROM foodintake WHERE dateAndTime = :date")
+    fun getFoodWithDate(date: String): Flow<List<dbFood>>
+
     @Query("SELECT * FROM foodintake WHERE volume = :volume AND dateAndTime = :dateAndTime LIMIT 1")
     fun getFood(
         volume: Int,
         dateAndTime: String,
     ): Flow<dbFood>
 
-    @Query("SELECT * from foodintake ORDER BY dateAndTime ASC")
+    @Query("SELECT * from foodintake ORDER BY dateAndTime DESC")
     fun getAllItems(): Flow<List<dbFood>>
 }

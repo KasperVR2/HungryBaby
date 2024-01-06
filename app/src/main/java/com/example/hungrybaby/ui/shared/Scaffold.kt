@@ -19,6 +19,7 @@ fun Scaff(
     goHome: () -> Unit,
     goToAbout: () -> Unit,
     goToSettings: () -> Unit,
+    goToNews: () -> Unit,
     body: @Composable () -> Unit,
 ) {
     Scaffold(
@@ -31,7 +32,7 @@ fun Scaff(
             )
         },
         bottomBar = {
-            BottomB(goHome, goToAbout, goToSettings)
+            BottomB(goHome, goToAbout, goToSettings, goToNews)
         },
         floatingActionButton = {
         },

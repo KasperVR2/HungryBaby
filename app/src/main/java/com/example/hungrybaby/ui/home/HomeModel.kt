@@ -14,8 +14,8 @@ import com.example.hungrybaby.model.Food
 import com.example.hungrybaby.ui.home.food.FoodApiState
 import com.example.hungrybaby.ui.home.food.FoodListState
 import com.example.hungrybaby.ui.home.food.FoodState
-import com.example.hungrybaby.ui.home.news.NewsListState
-import com.example.hungrybaby.ui.home.news.NewsState
+import com.example.hungrybaby.ui.news.news.NewsListState
+import com.example.hungrybaby.ui.news.news.NewsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -59,11 +59,27 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
         }
     }
 
+    fun checkFoodTime(time: String): Boolean {
+        var food: StateFlow<FoodListState> = MutableStateFlow(FoodListState())
+        try {
+            viewModelScope.launch {
+                food =
+                    foodRepo.getFoodWithDate(time).map { FoodListState(it) }
+                        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), FoodListState())
+            }
+        } catch (e: Exception) {
+            println("Error: $e")
+        }
+        return food.value.foodList.isEmpty()
+    }
+
     fun addFood() {
         viewModelScope.launch {
             foodRepo.addFood(Food(_uiState.value.newFoodVolume, _uiState.value.newFoodDate, _uiState.value.newFoodNote))
         }
-        // reset the input fields
+        _uiState.update {
+            it.copy(newFoodVolume = 0, newFoodDate = "", newFoodNote = "")
+        }
     }
 
     fun deleteAllFood() {
@@ -91,6 +107,10 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
         _uiState.update {
             it.copy(newFoodVolume = volume)
         }
+    }
+
+    fun getFoodVolume(): Int {
+        return _uiState.value.newFoodVolume
     }
 
     fun setNewFoodTime(time: String) {

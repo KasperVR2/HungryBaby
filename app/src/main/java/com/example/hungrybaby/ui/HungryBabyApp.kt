@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.hungrybaby.ui.about.About
 import com.example.hungrybaby.ui.home.Home
+import com.example.hungrybaby.ui.news.News
 import com.example.hungrybaby.ui.register.Register
 import com.example.hungrybaby.ui.settings.Settings
 import com.example.hungrybaby.ui.shared.Scaff
@@ -37,6 +38,7 @@ fun HungryBabyApp(navController: NavHostController = rememberNavController()) {
     }
     val goToAbout: () -> Unit = { navController.navigate(ScreenNames.About.name) }
     val goToSettings: () -> Unit = { navController.navigate(ScreenNames.Settings.name) }
+    val goToNews: () -> Unit = { navController.navigate(ScreenNames.News.name) }
     val goToRegister: () -> Unit = { navController.navigate(ScreenNames.Register.name) }
     // Go home without adding to the backstack
     val goToHomeScreen = {
@@ -70,6 +72,7 @@ fun HungryBabyApp(navController: NavHostController = rememberNavController()) {
             goHome = goHome,
             goToAbout = goToAbout,
             goToSettings = goToSettings,
+            goToNews = goToNews,
             body = body,
         )
     }
@@ -92,6 +95,11 @@ fun HungryBabyApp(navController: NavHostController = rememberNavController()) {
         }
         composable(ScreenNames.Register.name) {
             Register(goToHomeScreen, navigateUp, firstTime = false)
+        }
+        composable(ScreenNames.News.name) {
+            ScaffoldBuilder {
+                News()
+            }
         }
     }
 }

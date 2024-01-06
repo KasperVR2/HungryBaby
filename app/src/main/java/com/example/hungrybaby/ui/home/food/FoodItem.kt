@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hungrybaby.R
 import com.example.hungrybaby.ui.home.HomeModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun FoodItem(
@@ -74,6 +76,9 @@ fun FoodItem(
             Column(
                 modifier = Modifier.padding(8.dp),
             ) {
+                val date = dateAndTime.split("-")[0]
+                val time = dateAndTime.split("-")[1]
+                val today = date == DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -87,8 +92,13 @@ fun FoodItem(
                         style = MaterialTheme.typography.headlineSmall,
                     )
                     Text(
-                        text = "@ $dateAndTime",
+                        text = "${if (today) stringResource(id = R.string.today) else date} $time",
                         style = MaterialTheme.typography.bodyMedium,
+                    )
+                    Spacer(modifier = Modifier.weight(1F))
+                    TaskItemButton(
+                        expanded = expanded,
+                        onClick = { expanded = !expanded },
                     )
                 }
                 if (expanded) {
@@ -110,11 +120,6 @@ fun FoodItem(
                     }
                 }
             }
-            TaskItemButton(
-                expanded = expanded,
-                onClick = { expanded = !expanded },
-                modifier = Modifier.align(Alignment.Top),
-            )
         }
     }
 }

@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.map
 interface FoodRepository {
     fun getFoodList(): Flow<List<Food>>
 
+    fun getFoodWithDate(date: String): Flow<List<Food>>
+
     suspend fun addFood(food: Food)
 
     suspend fun removeFood(food: Food)
@@ -27,6 +29,13 @@ interface FoodRepository {
 class FoodRepositoryImpl(private val foodDao: FoodDao) : FoodRepository {
     override fun getFoodList(): Flow<List<Food>> {
         return foodDao.getAllItems().map {
+                list ->
+            list.map { it.asDomainFood() }
+        }
+    }
+
+    override fun getFoodWithDate(date: String): Flow<List<Food>> {
+        return foodDao.getFoodWithDate(date).map {
                 list ->
             list.map { it.asDomainFood() }
         }
