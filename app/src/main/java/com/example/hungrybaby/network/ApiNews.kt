@@ -16,10 +16,4 @@ fun Flow<List<ApiNews>>.asDomainObjects(): Flow<List<News>> {
     return domainList
 }
 
-fun List<ApiNews>.asDomainObjects(): List<News>  {
-    var domainList =
-        this.map {
-            News(it.news)
-        }
-    return domainList
-}
+fun List<ApiNews>.asDomainObjects() = map { News(it.news) }

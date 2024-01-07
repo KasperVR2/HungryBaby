@@ -1,9 +1,9 @@
 package com.example.hungrybaby.ui.news
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.example.hungrybaby.ui.news.news.NewsOverview
 
 @Composable
-fun News() {
-    Text("News")
+fun News(newsModel: NewsModel = NewsModel()) {
+    NewsOverview(newsModel)
 }

@@ -14,8 +14,6 @@ import com.example.hungrybaby.model.Food
 import com.example.hungrybaby.ui.home.food.FoodApiState
 import com.example.hungrybaby.ui.home.food.FoodListState
 import com.example.hungrybaby.ui.home.food.FoodState
-import com.example.hungrybaby.ui.news.news.NewsListState
-import com.example.hungrybaby.ui.news.news.NewsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -30,9 +28,9 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
     val uiState: StateFlow<FoodState> = _uiState.asStateFlow()
     lateinit var uiListState: StateFlow<FoodListState>
 
-    private val _newsState = MutableStateFlow(NewsState())
-    val newsState: StateFlow<NewsState> = _newsState.asStateFlow()
-    lateinit var newsListState: StateFlow<NewsListState>
+    // private val _newsState = MutableStateFlow(NewsState())
+    // val newsState: StateFlow<NewsState> = _newsState.asStateFlow()
+    // lateinit var newsListState: StateFlow<NewsListState>
 
     var foodApiState: FoodApiState by mutableStateOf(FoodApiState.Loading)
         private set

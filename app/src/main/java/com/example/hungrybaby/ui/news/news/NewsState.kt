@@ -2,8 +2,10 @@ package com.example.hungrybaby.ui.news.news
 
 import com.example.hungrybaby.model.News
 
-data class NewsState(
-    val newsMessage: String = "",
-)
+sealed interface NewsApiState {
+    data class Success(val news: List<News>) : NewsApiState
 
-data class NewsListState(val foodList: List<News> = listOf())
+    object Error : NewsApiState
+
+    object Loading : NewsApiState
+}

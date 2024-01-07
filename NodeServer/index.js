@@ -13,17 +13,10 @@ app.get('/news', (req, res) => {
     ]
     const item = [{
         news: newsItems[Math.floor(Math.random() * newsItems.length)],
+    },{
+        news: newsItems[Math.floor(Math.random() * newsItems.length)],
     }]
-    res.send(item)
-})
-
-app.get('/:leeftijd', (req, res) => {
-    const randomStatement = [
-        "Vanaf nu kan je baby licht en geluid waarnemen.",
-        "De baby kan nu zijn/haar hoofdje bewegen.",
-        "Vanaf nu begint de baby te gapen.",
-    ]
-    res.send(`Jou baby is nu ${req.params.leeftijd} weken oud! ${randomStatement[Math.floor(Math.random() * randomStatement.length)]}`)
+    res.json(item)
 })
 
 app.listen(port, () => {

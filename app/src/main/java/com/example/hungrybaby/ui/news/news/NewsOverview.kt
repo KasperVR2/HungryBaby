@@ -1,29 +1,42 @@
 package com.example.hungrybaby.ui.news.news
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.hungrybaby.R
+import com.example.hungrybaby.ui.news.NewsModel
 
 @Composable
-fun NewsOverview() {
-    val news = "In the making" // NewsService()
-    Box(
-        modifier =
-            Modifier.border(1.dp, color = androidx.compose.ui.graphics.Color.Black)
-                .background(androidx.compose.ui.graphics.Color.White)
-                .shadow(1.dp),
+fun NewsOverview(newsModel: NewsModel) {
+    val taskApiState = newsModel.newsApiState
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text(
-            "News: $news",
-            modifier = Modifier.padding(12.dp),
-            style = androidx.compose.ui.text.TextStyle(fontSize = 18.sp),
-        )
+        item {
+            Text(text = stringResource(R.string.news_caption), style = MaterialTheme.typography.titleMedium)
+        }
+        when (taskApiState) {
+            is NewsApiState.Success -> {
+                items(taskApiState.news) { news ->
+                    NewsItem(news.news)
+                }
+            }
+            is NewsApiState.Error -> {
+                item {
+                    Text("Error loading the news items... try again later!")
+                }
+            }
+
+            is NewsApiState.Loading -> {
+                item {
+                    Text("Loading...")
+                }
+            }
+        }
     }
 }

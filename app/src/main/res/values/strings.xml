@@ -27,4 +27,6 @@
     <string name="news_page">News</string>
     <string name="today">today at</string>
     <string name="warning">Please fill in a volume bigger than zero</string>
+    <string name="news_item">News Item:</string>
+    <string name="news_caption">Check out the latest news and tricks for your baby.</string>
 </resources>
