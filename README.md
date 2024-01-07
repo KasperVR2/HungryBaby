@@ -1,6 +1,6 @@
 # Hungry Baby App
 
-⚠️ WARNING: Navigation test failure notice
+⚠️ WARNING ⚠️: Navigation test failure notice
 -> Due to the setup of the application, the first time running the app you'll have to fill in the first screen before the navigation kicks in
 -> The tests will fail if it is testing a "fresh" install of the app, please fill in the first screen before running the tests
 
