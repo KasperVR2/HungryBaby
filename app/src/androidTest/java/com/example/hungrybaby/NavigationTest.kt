@@ -4,6 +4,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
@@ -14,7 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class NavigationTest {
-    private val someTaskName: String = "some task name"
+    // Navigation tests will fail on first run because the app is not yet initialized!!!
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -73,6 +74,48 @@ class NavigationTest {
             .performClick()
         composeTestRule
             .onNodeWithText("Confirm")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun clickDeleteAllFood() {
+        composeTestRule
+            .onNodeWithContentDescription("navigate to settings page")
+            .performClick()
+        composeTestRule
+            .onNodeWithTag("deleteAllButton")
+            .performClick()
+        composeTestRule
+            .onNodeWithText("Confirm")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun clickReset() {
+        composeTestRule
+            .onNodeWithContentDescription("navigate to settings page")
+            .performClick()
+        composeTestRule
+            .onNodeWithTag("resetButton")
+            .performClick()
+        composeTestRule
+            .onNodeWithText("Save")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun addFoodWithoutVolumeGivesWarning() {
+        composeTestRule
+            .onNodeWithContentDescription("Bottle")
+            .performClick()
+        composeTestRule
+            .onNodeWithText("Confirm")
+            .assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText("Confirm")
+            .performClick()
+        composeTestRule
+            .onNodeWithTag("warning")
             .assertIsDisplayed()
     }
 }

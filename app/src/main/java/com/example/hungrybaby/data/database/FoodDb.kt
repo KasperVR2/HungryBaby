@@ -14,7 +14,6 @@ abstract class FoodDb : RoomDatabase() {
         private var Instance: FoodDb? = null
 
         fun getDatabase(context: Context): FoodDb {
-            // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, FoodDb::class.java, "food_database")
                     .fallbackToDestructiveMigration()

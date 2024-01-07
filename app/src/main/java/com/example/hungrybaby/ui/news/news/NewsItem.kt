@@ -9,8 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.hungrybaby.R
 
 @Composable
@@ -20,7 +20,7 @@ fun NewsItem(news: String) {
             Modifier
                 .fillMaxWidth(),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.smallSpacer))) {
             Text(text = stringResource(R.string.news_item), style = MaterialTheme.typography.titleSmall)
             Row {
                 Text(text = news, style = MaterialTheme.typography.bodySmall)

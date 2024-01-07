@@ -9,7 +9,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,12 +27,16 @@ fun Settings(
     val openAlertDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
     Column {
-        TextButton(onClick = resetNameAndBirthdate) {
+        TextButton(
+            onClick = resetNameAndBirthdate,
+            modifier = Modifier.testTag("resetButton"),
+        ) {
             Text(stringResource(R.string.reset_all))
         }
-        TextButton(onClick = {
-            openAlertDialog.value = true
-        }) {
+        TextButton(
+            onClick = { openAlertDialog.value = true },
+            modifier = Modifier.testTag("deleteAllButton"),
+        ) {
             Text(stringResource(R.string.detele_all))
         }
 

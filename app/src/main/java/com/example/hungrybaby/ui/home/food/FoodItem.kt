@@ -78,7 +78,6 @@ fun FoodItem(
             ) {
                 val date = dateAndTime.split("-")[0]
                 val time = dateAndTime.split("-")[1]
-                val today = date == DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -92,7 +91,7 @@ fun FoodItem(
                         style = MaterialTheme.typography.headlineSmall,
                     )
                     Text(
-                        text = "${if (today) stringResource(id = R.string.today) else date} $time",
+                        text = "${if (checkIfDateIsToday(date)) stringResource(id = R.string.today) else date} $time",
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     Spacer(modifier = Modifier.weight(1F))
@@ -140,4 +139,8 @@ fun TaskItemButton(
             tint = MaterialTheme.colorScheme.secondary,
         )
     }
+}
+
+fun checkIfDateIsToday(date: String): Boolean {
+    return date == DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 }

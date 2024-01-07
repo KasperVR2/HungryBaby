@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -56,23 +57,15 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
     val babyData: String? = runBlocking { data.getBabyData.firstOrNull() }
     val name = babyData?.split(";")?.get(0) ?: ""
     val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val daysBetween = { date: LocalDate ->
-        val today = LocalDate.now()
-        val days = today.toEpochDay() - date.toEpochDay()
-        days.toInt()
-    }
     val date =
         try {
             LocalDate.parse(babyData?.split(";")?.get(1), dateFormatter)
         } catch (e: Exception) {
             LocalDate.now()
         }
+    val daysBetween = daysBetween(LocalDate.now(), date)
     val openFoodDialog = rememberSaveable { mutableStateOf(false) }
-
-    // Hoisted variables for the model
-    val volume = rememberSaveable { mutableStateOf("") }
     val time = rememberSaveable { mutableStateOf("") }
-    // volume.value = homeModel.getFoodVolume().toString()
 
     Box(
         modifier =
@@ -85,7 +78,7 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                "Baby $name: ${daysBetween(date)} ${stringResource(id = R.string.days_old)}",
+                "Baby $name: $daysBetween ${stringResource(id = R.string.days_old)}",
                 style = TextStyle(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
             )
             Spacer(modifier = Modifier.weight(1F))
@@ -99,11 +92,9 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
     }
 
     when {
-        // ...
         openFoodDialog.value -> {
             AddFoodDialog(
                 onDismissRequest = { openFoodDialog.value = false },
-                // volume = volume,
                 time = time,
                 homeModel = homeModel,
                 modal = openFoodDialog,
@@ -116,7 +107,6 @@ fun Home(homeModel: HomeModel = viewModel(factory = HomeModel.Factory)) {
 @Composable
 fun AddFoodDialog(
     onDismissRequest: () -> Unit,
-    // volume: MutableState<String>,
     time: MutableState<String>,
     homeModel: HomeModel,
     modal: MutableState<Boolean>,
@@ -156,6 +146,7 @@ fun AddFoodDialog(
                     Text(
                         text = stringResource(id = R.string.warning),
                         style = TextStyle(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
+                        modifier = Modifier.testTag("warning"),
                     )
                 }
 
@@ -200,7 +191,7 @@ fun AddFoodDialog(
                                 return@TextButton
                             }
                         },
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(8.dp).testTag("confirm"),
                     ) {
                         Text(stringResource(id = R.string.confirm))
                     }
@@ -212,4 +203,12 @@ fun AddFoodDialog(
 
 fun checkVolume(volume: String): Boolean {
     return volume.toIntOrNull() != null && volume.toInt() > 0
+}
+
+fun daysBetween(
+    dateOne: LocalDate,
+    dateTwo: LocalDate,
+): Int {
+    val days = dateOne.toEpochDay() - dateTwo.toEpochDay()
+    return days.toInt()
 }

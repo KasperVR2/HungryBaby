@@ -27,11 +27,6 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(FoodState())
     val uiState: StateFlow<FoodState> = _uiState.asStateFlow()
     lateinit var uiListState: StateFlow<FoodListState>
-
-    // private val _newsState = MutableStateFlow(NewsState())
-    // val newsState: StateFlow<NewsState> = _newsState.asStateFlow()
-    // lateinit var newsListState: StateFlow<NewsListState>
-
     var foodApiState: FoodApiState by mutableStateOf(FoodApiState.Loading)
         private set
 
@@ -50,26 +45,12 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
         }
     }
 
-    fun checkFoodTime(time: String): Boolean {
-        var food: StateFlow<FoodListState> = MutableStateFlow(FoodListState())
-        try {
-            viewModelScope.launch {
-                food =
-                    foodRepo.getFoodWithDate(time).map { FoodListState(it) }
-                        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), FoodListState())
-            }
-        } catch (e: Exception) {
-            println("Error: $e")
-        }
-        return food.value.foodList.isEmpty()
-    }
-
     fun addFood() {
         viewModelScope.launch {
-            foodRepo.addFood(Food(_uiState.value.newFoodVolume, _uiState.value.newFoodDate, _uiState.value.newFoodNote))
+            foodRepo.addFood(Food(_uiState.value.newFoodVolume, _uiState.value.newFoodDate))
         }
         _uiState.update {
-            it.copy(newFoodVolume = 0, newFoodDate = "", newFoodNote = "")
+            it.copy(newFoodVolume = 0, newFoodDate = "")
         }
     }
 
@@ -88,6 +69,8 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
         }
     }
 
+    // Working with strings because of the TextField...
+    // toInt() throws an exception if the string is empty
     fun setNewFoodVolume(volumeString: String) {
         val volume =
             try {
@@ -100,10 +83,7 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
         }
     }
 
-    fun getFoodVolume(): Int {
-        return _uiState.value.newFoodVolume
-    }
-
+    // We know time format will be correct because of the TimePicker
     fun setNewFoodTime(time: String) {
         _uiState.update {
             it.copy(newFoodDate = time)

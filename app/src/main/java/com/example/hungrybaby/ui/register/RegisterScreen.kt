@@ -36,7 +36,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.sp
 import com.example.hungrybaby.R
 import com.example.hungrybaby.ui.shared.StartData
 import kotlinx.coroutines.runBlocking
@@ -47,16 +46,18 @@ import java.util.Date
 fun Register(
     goToHomeScreen: () -> Unit,
     goBack: () -> Unit,
+    // If firstTime is true, the user can't leave the screen
     firstTime: Boolean = true,
 ) {
+    // Variables for UI
     val data = StartData(LocalContext.current)
     var name by rememberSaveable { mutableStateOf("") }
     val changeName = { newName: String -> name = newName }
     val chooseDate = stringResource(R.string.choose_date_birth)
     var date = rememberSaveable { mutableStateOf(chooseDate) }
-
     var showErrorMessage by rememberSaveable { mutableStateOf(false) }
 
+    // Function for saving the data to datastore
     val saveData = saveData@{
         // Check if everything is filled in
         if (name.isEmpty() || date.value == chooseDate) {
@@ -64,6 +65,7 @@ fun Register(
             return@saveData
         }
         val nameAndDate = name + ";" + date.value
+        // Blocking because we need it for the next screen
         runBlocking { data.saveBabyData(nameAndDate) }
         goToHomeScreen()
     }
@@ -133,7 +135,7 @@ fun MyDatePickerDialog(date: MutableState<String>) {
         ) {
             Text(
                 text = datum,
-                style = TextStyle(fontSize = 14.sp),
+                style = TextStyle(fontSize = MaterialTheme.typography.bodyLarge.fontSize),
             )
         }
     }

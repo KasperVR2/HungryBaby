@@ -16,21 +16,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.hungrybaby.R
 
 @Composable
 fun About() {
     val context = LocalContext.current
     Column(
-        verticalArrangement = Arrangement.spacedBy(25.dp),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.mediumSpacer)),
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo),

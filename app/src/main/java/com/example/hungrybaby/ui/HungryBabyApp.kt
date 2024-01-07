@@ -63,6 +63,8 @@ fun HungryBabyApp(navController: NavHostController = rememberNavController()) {
             ScreenNames.Start.name
         }
 
+    // Not putting the navhost in the scaffold because I don't want
+    // the scaffold on the register screen
     @Composable
     fun ScaffoldBuilder(body: @Composable () -> Unit) {
         Scaff(

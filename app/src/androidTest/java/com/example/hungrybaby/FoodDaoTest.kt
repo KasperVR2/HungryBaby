@@ -22,11 +22,9 @@ import java.io.IOException
 class FoodDaoTest {
     private lateinit var foodDao: FoodDao
     private lateinit var foodDb: FoodDb
-
     private var food1 = Food(80, "2023-12-25:18:00")
     private var food2 = Food(120, "2023-12-24:18:00")
 
-    // unility functions
     private suspend fun addOneTaskToDb() {
         foodDao.insert(food1.asDbFood())
     }
@@ -39,11 +37,8 @@ class FoodDaoTest {
     @Before
     fun createDb() {
         val context: Context = ApplicationProvider.getApplicationContext()
-        // Using an in-memory database because the information stored here disappears when the
-        // process is killed.
         foodDb =
             Room.inMemoryDatabaseBuilder(context, FoodDb::class.java)
-                // Allowing main thread queries, just for testing.
                 .allowMainThreadQueries()
                 .build()
         foodDao = foodDb.foodDao()

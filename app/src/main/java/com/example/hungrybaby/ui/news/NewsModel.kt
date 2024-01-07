@@ -20,12 +20,13 @@ class NewsModel() : ViewModel() {
 
     private fun fetchNews() {
         viewModelScope.launch {
-            try {
-                val result = newsService.getNews()
-                newsApiState = NewsApiState.Success(result.asDomainObjects())
-            } catch (e: Exception) {
-                newsApiState = NewsApiState.Error
-            }
+            newsApiState =
+                try {
+                    val result = newsService.getNews()
+                    NewsApiState.Success(result.asDomainObjects())
+                } catch (e: Exception) {
+                    NewsApiState.Error
+                }
         }
     }
 }

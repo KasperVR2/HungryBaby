@@ -10,22 +10,20 @@ import kotlinx.coroutines.flow.map
 interface FoodRepository {
     fun getFoodList(): Flow<List<Food>>
 
-    fun getFoodWithDate(date: String): Flow<List<Food>>
-
     suspend fun addFood(food: Food)
 
-    suspend fun removeFood(food: Food)
-
+    // Since dateAndTime has unique constraint,
+    // dateAndTime is enough to delete a food but volume is also included for safety
     suspend fun removeFoodWithParams(
         volume: Int,
         dateAndTime: String,
     )
 
+    // For testing purposes, was kept in the final app in settings
     suspend fun removeAllFood()
-
-    suspend fun updateFood(food: Food)
 }
 
+// Implementation of FoodRepository
 class FoodRepositoryImpl(private val foodDao: FoodDao) : FoodRepository {
     override fun getFoodList(): Flow<List<Food>> {
         return foodDao.getAllItems().map {
@@ -34,19 +32,8 @@ class FoodRepositoryImpl(private val foodDao: FoodDao) : FoodRepository {
         }
     }
 
-    override fun getFoodWithDate(date: String): Flow<List<Food>> {
-        return foodDao.getFoodWithDate(date).map {
-                list ->
-            list.map { it.asDomainFood() }
-        }
-    }
-
     override suspend fun addFood(food: Food) {
         foodDao.insert(food.asDbFood())
-    }
-
-    override suspend fun removeFood(food: Food) {
-        foodDao.delete(food.asDbFood())
     }
 
     override suspend fun removeFoodWithParams(
@@ -58,9 +45,5 @@ class FoodRepositoryImpl(private val foodDao: FoodDao) : FoodRepository {
 
     override suspend fun removeAllFood() {
         foodDao.deleteAll()
-    }
-
-    override suspend fun updateFood(food: Food) {
-        foodDao.update(food.asDbFood())
     }
 }
