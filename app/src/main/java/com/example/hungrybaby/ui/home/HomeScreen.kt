@@ -159,17 +159,17 @@ fun AddFoodDialog(
                     )
                 }
 
+                TimeInput(
+                    state = timeState,
+                    modifier = Modifier.padding(16.dp),
+                )
+
                 OutlinedTextField(
                     value = volume,
                     onValueChange = { changeVolume(it) },
                     label = { Text(stringResource(R.string.how_much_drink)) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                )
-
-                TimeInput(
-                    state = timeState,
-                    modifier = Modifier.padding(16.dp),
                 )
 
                 Row(

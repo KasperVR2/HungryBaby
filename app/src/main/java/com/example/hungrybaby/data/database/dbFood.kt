@@ -11,14 +11,12 @@ data class dbFood(
     val id: Int = 0,
     val volume: Int,
     val dateAndTime: String,
-    val note: String = "",
 )
 
 fun dbFood.asDomainFood(): Food {
     return Food(
         this.volume,
         this.dateAndTime,
-        this.note,
     )
 }
 
@@ -26,6 +24,5 @@ fun Food.asDbFood(): dbFood {
     return dbFood(
         volume = this.volume,
         dateAndTime = this.dateAndTime,
-        note = this.note,
     )
 }

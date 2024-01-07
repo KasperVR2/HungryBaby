@@ -26,4 +26,8 @@
     <string name="news_page">Nieuws</string>
     <string name="today">Vandaag om</string>
     <string name="warning">Gelieve een volume in te vullen dat hoger is dan nul</string>
+    <string name="news_item">Nieuws:</string>
+    <string name="news_caption">Bekijk hier het laatste nieuws en trucjes voor jouw baby.</string>
+    <string name="reset_all">Reset naam en geboortedatum</string>
+    <string name="detele_all">Verwijder alle voedsel</string>
 </resources>

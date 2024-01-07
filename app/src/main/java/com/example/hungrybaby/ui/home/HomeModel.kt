@@ -37,13 +37,6 @@ class HomeModel(private val foodRepo: FoodRepository) : ViewModel() {
 
     init {
         getRepoFood()
-
-        /* VERDER AFWERKEN
-        viewModelScope.launch {
-            newsListState = NewsService().map { NewsListState(it) }
-                    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), NewsListState())
-        }
-         */
     }
 
     private fun getRepoFood() {

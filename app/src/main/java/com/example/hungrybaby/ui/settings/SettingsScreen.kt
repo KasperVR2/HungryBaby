@@ -26,12 +26,12 @@ fun Settings(
     val context = LocalContext.current
     Column {
         TextButton(onClick = resetNameAndBirthdate) {
-            Text("Reset name and birthdate")
+            Text(stringResource(R.string.reset_all))
         }
         TextButton(onClick = {
             openAlertDialog.value = true
         }) {
-            Text("Delete all food")
+            Text(stringResource(R.string.detele_all))
         }
 
         when {

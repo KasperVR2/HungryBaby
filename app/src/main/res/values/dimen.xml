@@ -5,4 +5,7 @@
     <dimen name="mediumSpacer">24dp</dimen>
     <dimen name="mediumPadding">24dp</dimen>
     <dimen name="cardCornerRadius">28dp</dimen>
+    <dimen name="logoSize">150dp</dimen>
+    <dimen name="buttonHeight">40dp</dimen>
+    <dimen name="textSizeButton">14</dimen>
 </resources>

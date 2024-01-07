@@ -29,4 +29,6 @@
     <string name="warning">Please fill in a volume bigger than zero</string>
     <string name="news_item">News Item:</string>
     <string name="news_caption">Check out the latest news and tricks for your baby.</string>
+    <string name="reset_all">Reset name and birthdate</string>
+    <string name="detele_all">Delete all food</string>
 </resources>
